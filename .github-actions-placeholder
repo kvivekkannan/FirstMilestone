@@ -1,0 +1,2 @@
+# GitHub Actions is intentionally the next exercise.
+# Suggested workflow: restore/test -> Angular build -> Docker build -> ECR push -> ECS deploy.

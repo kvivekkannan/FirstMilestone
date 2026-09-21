@@ -1,0 +1,27 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Your_strong_password123"
+    ports:
+      - "1433:1433"
+    volumes:
+      - firstmilestone-sql:/var/opt/mssql
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=FirstMilestone;User Id=sa;Password=Your_strong_password123;TrustServerCertificate=True;MultipleActiveResultSets=True"
+      Cors__AllowedOrigins__0: "http://localhost:8080"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - sqlserver
+
+volumes:
+  firstmilestone-sql:

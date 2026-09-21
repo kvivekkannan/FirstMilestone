@@ -1,0 +1,41 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "first-milestone": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "fm",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/first-milestone",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "tsconfig.app.json",
+            "assets": ["src/favicon.svg"],
+            "styles": ["src/styles.css"]
+          },
+          "configurations": {
+            "production": { "optimization": true, "extractLicenses": true, "sourceMap": false },
+            "development": { "optimization": false, "sourceMap": true }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": { "buildTarget": "first-milestone:build:production" },
+            "development": { "buildTarget": "first-milestone:build:development" }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
+    }
+  }
+}

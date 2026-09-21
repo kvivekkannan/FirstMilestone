@@ -1,0 +1,47 @@
+{
+  "family": "firstmilestone",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::<account-id>:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::<account-id>:role/firstmilestoneTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "firstmilestone",
+      "image": "<account-id>.dkr.ecr.<region>.amazonaws.com/firstmilestone:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        { "name": "ASPNETCORE_ENVIRONMENT", "value": "Production" },
+        { "name": "ASPNETCORE_URLS", "value": "http://+:8080" }
+      ],
+      "secrets": [
+        {
+          "name": "ConnectionStrings__DefaultConnection",
+          "valueFrom": "arn:aws:secretsmanager:<region>:<account-id>:secret:firstmilestone/database-<suffix>"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/firstmilestone",
+          "awslogs-region": "<region>",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "healthCheck": {
+        "command": ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 20
+      }
+    }
+  ]
+}

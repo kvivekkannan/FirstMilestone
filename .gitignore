@@ -1,0 +1,38 @@
+# .NET
+**/bin/
+**/obj/
+*.user
+*.suo
+.vs/
+
+# Node / Angular
+**/node_modules/
+**/dist/
+**/.angular/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/tasks.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test results
+TestResults/
+coverage/
+
+# Local database / logs
+*.db
+*.sqlite
+*.log
+
+# Generated archives
+*.zip
